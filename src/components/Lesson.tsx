@@ -1,4 +1,4 @@
-import { Play, PlayCircle, VideoCamera } from "@phosphor-icons/react"
+import { Play, VideoCamera } from "@phosphor-icons/react"
 
 interface LessonProps {
   title: string

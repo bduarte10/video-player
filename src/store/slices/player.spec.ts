@@ -1,13 +1,14 @@
 import { describe, it, expect } from 'vitest'
-import { next, play, playerSlice, player as reducer } from './player'
+import { PlayerState, next, play, playerSlice, player as reducer } from './player'
 import { current } from '@reduxjs/toolkit'
 
 
-const exampleState = {
+const exampleState: PlayerState = {
   course: {
+    id: 1,
     modules: [
       {
-        id: '1',
+        id: 1,
         title: 'Iniciando com React',
         lessons: [
           { id: 'Jai8w6K_GnY', title: 'CSS Modules', duration: '13:45' },
@@ -19,7 +20,7 @@ const exampleState = {
         ],
       },
       {
-        id: '2',
+        id: 2,
         title: 'Estrutura da aplicação',
         lessons: [
           { id: 'gE48FQXRZ_o', title: 'Componente: Comment', duration: '13:45' },

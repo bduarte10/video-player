@@ -2,8 +2,7 @@ import * as Collapsible from '@radix-ui/react-collapsible';
 
 import { CaretDown } from "@phosphor-icons/react"
 import { Lesson } from "./Lesson"
-import { useAppSelector } from '../store';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../store';
 import { play } from '../store/slices/player';
 
 interface ModuleProps {
@@ -13,13 +12,13 @@ interface ModuleProps {
 }
 
 export const Module = ({ moduleIndex, title, amountOfLessons }: ModuleProps) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { currentModuleIndex, currentLessonIndex } = useAppSelector(state => {
     const { currentModuleIndex, currentLessonIndex } = state.player
     return { currentModuleIndex, currentLessonIndex }
   })
 
-  const lessons = useAppSelector(state => state.player.course.modules[moduleIndex].lessons)
+  const lessons = useAppSelector(state => state.player.course?.modules[moduleIndex].lessons)
 
 
 
@@ -37,7 +36,7 @@ export const Module = ({ moduleIndex, title, amountOfLessons }: ModuleProps) => 
       </Collapsible.Trigger>
       <Collapsible.Content>
         <nav className="relative flex flex-col gap-4 p-6 ">
-          {lessons.map((lesson, LessonIndex) => {
+          {lessons && lessons.map((lesson, LessonIndex) => {
             const isCurrent = currentModuleIndex === moduleIndex && currentLessonIndex === LessonIndex
             return (
               <Lesson
