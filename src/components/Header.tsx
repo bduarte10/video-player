@@ -1,7 +1,7 @@
-import { useCurrentLesson, useStore } from "../zustand-store"
+import { useCurrentLesson, useStore } from "../store"
 
 export const Header = () => {
-  const {isLoading} = useStore()
+  const isLoading = useStore(state => state.isLoading)
 
   const {currentModule, currentLesson} = useCurrentLesson()	
   return (

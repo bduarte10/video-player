@@ -4,25 +4,29 @@ import { Header } from "../components/Header";
 import { Video } from "../components/Video";
 import { Module } from "../components/Module";
 import { useEffect } from "react";
-import { useCurrentLesson, useStore } from "../zustand-store";
-
+import { useCurrentLesson, useStore } from "../store";
 
 export function Player() {
 
-  const {course, load} = useStore()
+  const { course, load } = useStore(store => {
+    return {
+      course: store.course,
+      load: store.load
+    }
+  })
 
   const { currentLesson } = useCurrentLesson()
 
   useEffect(() => {
-   load()
+    load()
   }, [])
-  
+
 
 
   useEffect(() => {
-   if(currentLesson){
-    document.title = `Assistindo: ${currentLesson.title}`
-   }
+    if (currentLesson) {
+      document.title = `Assistindo: ${currentLesson.title}`
+    }
   }, [currentLesson])
 
   return (

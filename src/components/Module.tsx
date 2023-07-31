@@ -2,8 +2,7 @@ import * as Collapsible from '@radix-ui/react-collapsible';
 
 import { CaretDown } from "@phosphor-icons/react"
 import { Lesson } from "./Lesson"
-import { play } from '../store/slices/player';
-import { useStore } from '../zustand-store';
+import { useStore } from '../store';
 
 
 interface ModuleProps {
@@ -14,12 +13,14 @@ interface ModuleProps {
 
 export const Module = ({ moduleIndex, title, amountOfLessons }: ModuleProps) => {
 
-const { currentLessonIndex, currentModuleIndex, play} = useStore()
-
-
-  const lessons = useStore((state) => state.course?.modules[moduleIndex].lessons)
-
-
+  const { currentLessonIndex, currentModuleIndex, play, lessons } = useStore(store => {
+    return {
+      lessons: store.course?.modules[moduleIndex].lessons,
+      currentLessonIndex: store.currentLessonIndex,
+      currentModuleIndex: store.currentModuleIndex,
+      play: store.play
+    }
+  })
 
   return (
     <Collapsible.Root className='group' defaultOpen={moduleIndex === 0}>
@@ -47,7 +48,6 @@ const { currentLessonIndex, currentModuleIndex, play} = useStore()
               />
             )
           })}
-
         </nav>
       </Collapsible.Content>
     </Collapsible.Root>
