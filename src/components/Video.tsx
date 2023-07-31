@@ -1,26 +1,36 @@
 import ReactPlayer from "react-player"
-import { next, useCurrentLesson } from "../store/slices/player"
-import { useAppDispatch } from "../store"
+import { Spinner } from "@phosphor-icons/react"
+import { useCurrentLesson, useStore } from "../zustand-store"
 
 
 export const Video = () => {
-  const dispatch = useAppDispatch()
-  
-  const {currentLesson} = useCurrentLesson()
- 
+
+  const { currentLesson } = useCurrentLesson()
+  const { isLoading, next } = useStore()
+
   function handlePlayNext() {
-    dispatch(next())
+    next()
   }
   return (
     <div className="w-full bg-zinc-950 aspect-video">
-      <ReactPlayer
-        width="100%"
-        height="100%"
-        controls
-        playing
-        onEnded={handlePlayNext}
-        url={`https://www.youtube.com/watch?v=${currentLesson?.id}`}
-      />
+      {isLoading ? (
+        <div className="flex h-full items-center justify-center">
+          <Spinner size={32} className="animate-spin" />
+        </div>
+      )
+        :
+        (
+
+          <ReactPlayer
+            width="100%"
+            height="100%"
+            controls
+            playing
+            onEnded={handlePlayNext}
+            url={`https://www.youtube.com/watch?v=${currentLesson?.id}`}
+          />
+        )
+      }
     </div>
   )
 }

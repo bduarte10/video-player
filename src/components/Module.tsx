@@ -2,8 +2,9 @@ import * as Collapsible from '@radix-ui/react-collapsible';
 
 import { CaretDown } from "@phosphor-icons/react"
 import { Lesson } from "./Lesson"
-import { useAppDispatch, useAppSelector } from '../store';
 import { play } from '../store/slices/player';
+import { useStore } from '../zustand-store';
+
 
 interface ModuleProps {
   moduleIndex: number
@@ -12,13 +13,11 @@ interface ModuleProps {
 }
 
 export const Module = ({ moduleIndex, title, amountOfLessons }: ModuleProps) => {
-  const dispatch = useAppDispatch()
-  const { currentModuleIndex, currentLessonIndex } = useAppSelector(state => {
-    const { currentModuleIndex, currentLessonIndex } = state.player
-    return { currentModuleIndex, currentLessonIndex }
-  })
 
-  const lessons = useAppSelector(state => state.player.course?.modules[moduleIndex].lessons)
+const { currentLessonIndex, currentModuleIndex, play} = useStore()
+
+
+  const lessons = useStore((state) => state.course?.modules[moduleIndex].lessons)
 
 
 
@@ -43,7 +42,7 @@ export const Module = ({ moduleIndex, title, amountOfLessons }: ModuleProps) => 
                 key={lesson.id}
                 title={lesson.title}
                 duration={lesson.duration}
-                onPlay={() => dispatch(play([moduleIndex, LessonIndex]))}
+                onPlay={() => play([moduleIndex, LessonIndex])}
                 isCurrent={isCurrent}
               />
             )

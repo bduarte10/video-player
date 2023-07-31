@@ -3,19 +3,18 @@ import { ChatTeardrop, CaretDown, VideoCamera } from "@phosphor-icons/react";
 import { Header } from "../components/Header";
 import { Video } from "../components/Video";
 import { Module } from "../components/Module";
-import { useAppDispatch, useAppSelector } from "../store";
-import { loadCourse, useCurrentLesson } from "../store/slices/player";
 import { useEffect } from "react";
+import { useCurrentLesson, useStore } from "../zustand-store";
 
 
 export function Player() {
-  const modules = useAppSelector(state => state.player.course?.modules)
+
+  const {course, load} = useStore()
 
   const { currentLesson } = useCurrentLesson()
 
-  const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatch(loadCourse())
+   load()
   }, [])
   
 
@@ -41,7 +40,7 @@ export function Player() {
             <Video />
           </div>
           <aside className="w-80 absolute top-0 bottom-0 right-0 divide-y-2 divide-zinc-900 border-l overflow-y-auto scrollbar scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800 border-zinc-800 bg-zinc-900 ">
-            {modules && modules.map((module, index) => (
+            {course?.modules && course.modules.map((module, index) => (
               <Module
                 key={module.id}
                 moduleIndex={index}
